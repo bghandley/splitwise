@@ -1,0 +1,239 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Podcasts</h1>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPodcastModal">
+            <i class="fas fa-plus me-2"></i>New Podcast
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Audio File</th>
+                            <th>Duration</th>
+                            <th>Published</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for podcast in podcasts %}
+                        <tr>
+                            <td>{{ podcast.title }}</td>
+                            <td>{{ podcast.description|truncate(100) }}</td>
+                            <td>{{ podcast.audio_file }}</td>
+                            <td>{{ podcast.duration }}</td>
+                            <td>{{ podcast.published_at.strftime('%Y-%m-%d %H:%M') if podcast.published_at }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-2" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editPodcastModal{{ podcast.id }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deletePodcastModal{{ podcast.id }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Edit Modal -->
+                        <div class="modal fade" id="editPodcastModal{{ podcast.id }}" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Podcast</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <form method="POST" action="{{ url_for('edit_podcast', id=podcast.id) }}" enctype="multipart/form-data">
+                                        <div class="modal-body">
+                                            {{ form.csrf_token }}
+                                            <div class="mb-3">
+                                                <label class="form-label">Title</label>
+                                                <input type="text" class="form-control" name="title" value="{{ podcast.title }}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Description</label>
+                                                <textarea class="form-control" name="description" rows="3">{{ podcast.description }}</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Audio File</label>
+                                                <input type="file" class="form-control" name="audio_file" accept="audio/*">
+                                                <small class="text-muted">Current file: {{ podcast.audio_file }}</small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Duration (in minutes)</label>
+                                                <input type="number" class="form-control" name="duration" value="{{ podcast.duration }}" step="0.01">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Published Date</label>
+                                                <input type="datetime-local" class="form-control" name="published_at" 
+                                                       value="{{ podcast.published_at.strftime('%Y-%m-%dT%H:%M') if podcast.published_at }}">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deletePodcastModal{{ podcast.id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Delete Podcast</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete the podcast "{{ podcast.title }}"?</p>
+                                        <p class="text-danger">This action cannot be undone.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form method="POST" action="{{ url_for('delete_podcast', id=podcast.id) }}" class="d-inline">
+                                            {{ form.csrf_token }}
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Podcast Modal -->
+<div class="modal fade" id="newPodcastModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Podcast</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('new_podcast') }}" enctype="multipart/form-data">
+                <div class="modal-body">
+                    {{ form.csrf_token }}
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Audio File</label>
+                        <input type="file" class="form-control" name="audio_file" accept="audio/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Duration (in minutes)</label>
+                        <input type="number" class="form-control" name="duration" step="0.01">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Published Date</label>
+                        <input type="datetime-local" class="form-control" name="published_at">
+                    </div>
+                    <div class="progress mb-3 d-none" id="analysisProgress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                             role="progressbar" 
+                             style="width: 100%">
+                            Analyzing audio...
+                        </div>
+                    </div>
+                    <div id="analysisError" class="alert alert-danger d-none">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Podcast</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+async function analyzeAudio(file) {
+    const progressBar = document.querySelector('#analysisProgress');
+    const errorDiv = document.querySelector('#analysisError');
+    const formData = new FormData();
+    formData.append('audio_file', file);
+
+    try {
+        // Show progress bar
+        progressBar.classList.remove('d-none');
+        errorDiv.classList.add('d-none');
+        
+        const response = await fetch('/admin/podcast/analyze', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error('Analysis failed: ' + (await response.text()));
+        }
+        
+        const result = await response.json();
+        
+        // Fill in the form fields if they're empty
+        const titleInput = document.querySelector('#newPodcastModal input[name="title"]');
+        const descInput = document.querySelector('#newPodcastModal textarea[name="description"]');
+        const durationInput = document.querySelector('#newPodcastModal input[name="duration"]');
+        
+        if (!titleInput.value) {
+            titleInput.value = result.title;
+        }
+        if (!descInput.value) {
+            descInput.value = result.description;
+        }
+        if (!durationInput.value) {
+            durationInput.value = result.duration.toFixed(2);
+        }
+        
+        // Hide progress bar on success
+        progressBar.classList.add('d-none');
+        
+    } catch (error) {
+        console.error('Error analyzing audio:', error);
+        // Show error message
+        errorDiv.textContent = error.message;
+        errorDiv.classList.remove('d-none');
+        progressBar.classList.add('d-none');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.querySelector('#newPodcastModal input[type="file"]');
+    const form = document.querySelector('#newPodcastModal form');
+    
+    fileInput.addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            analyzeAudio(e.target.files[0]);
+        }
+    });
+
+    // Add form submission handler
+    form.addEventListener('submit', function(e) {
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creating...';
+    });
+});
+</script>
+{% endblock %}

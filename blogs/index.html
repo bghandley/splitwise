@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore spiritual business insights, sales strategies, and leadership wisdom in our comprehensive blog collection at Spirit of the Deal.">
+    <meta name="keywords" content="spiritual business blog, business spirituality, sales wisdom, leadership insights, entrepreneurship guidance">
+    <title>Blog | Spirit of the Deal - Spiritual Business Insights</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="blog-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+        }
+
+        .blog-card h3 {
+            margin: 0 0 1rem;
+            color: var(--primary-color);
+        }
+
+        .blog-card p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .blog-meta {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        .category-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            background: var(--light-bg);
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            margin: 0.2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .category-tag:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .search-section {
+            background: var(--light-bg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--accent-color);
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .categories-filter {
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .filter-tag {
+            cursor: pointer;
+            margin: 0.3rem;
+        }
+
+        .filter-tag.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .read-more {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Spirit of the Deal</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#blog">Blog</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="search-section">
+            <div class="search-container">
+                <h1>Spiritual Business Insights</h1>
+                <p>Explore our collection of articles on spiritual business growth and success</p>
+                <input type="text" id="searchInput" placeholder="Search articles...">
+                <div class="categories-filter">
+                    <span class="category-tag filter-tag active" data-category="all">All</span>
+                    <span class="category-tag filter-tag" data-category="spirituality">Spirituality</span>
+                    <span class="category-tag filter-tag" data-category="sales">Sales</span>
+                    <span class="category-tag filter-tag" data-category="leadership">Leadership</span>
+                    <span class="category-tag filter-tag" data-category="mindset">Mindset</span>
+                    <span class="category-tag filter-tag" data-category="practices">Practices</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="blog-grid" id="blogGrid">
+            <!-- Blog cards will be dynamically populated here -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Spirit of the Deal. Elevating Business Through Spiritual Wisdom.</p>
+            <div class="footer-links">
+                <a href="../index.html#about">About</a> |
+                <a href="../index.html#services">Services</a> |
+                <a href="../index.html#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Blog data
+        const blogPosts = [
+            {
+                title: "Trusting the Universe: A Guide for Entrepreneurs",
+                description: "Learn how to align with universal flow for business success and discover practical spiritual techniques for entrepreneurs.",
+                image: "https://source.unsplash.com/random/600x400/?universe,trust",
+                link: "trusting-the-universe-a-guide-for-entrepreneurs.html",
+                date: "December 14, 2024",
+                categories: ["spirituality", "mindset"]
+            },
+            {
+                title: "How Spirituality Enhances Business Success",
+                description: "Discover the powerful connection between spiritual practices and business achievement.",
+                image: "https://source.unsplash.com/random/600x400/?meditation,business",
+                link: "spirituality-enhances-business.html",
+                date: "December 14, 2024",
+                categories: ["spirituality", "practices"]
+            },
+            {
+                title: "Mindset Shifts for Achieving Alignment",
+                description: "Transform your business mindset through spiritual principles and aligned thinking.",
+                image: "https://source.unsplash.com/random/600x400/?mindset,transformation",
+                link: "mindset-shifts-for-achieving-alignment.html",
+                date: "December 14, 2024",
+                categories: ["mindset", "spirituality"]
+            },
+            {
+                title: "The Law of Increase in Sales",
+                description: "Learn how to apply spiritual laws of abundance to boost your sales performance.",
+                image: "https://source.unsplash.com/random/600x400/?abundance,growth",
+                link: "the-law-of-increase-in-sales.html",
+                date: "December 14, 2024",
+                categories: ["sales", "spirituality"]
+            },
+            {
+                title: "Balancing Masculine and Feminine Energy in Leadership",
+                description: "Explore how to harness both energies for effective and balanced leadership.",
+                image: "https://source.unsplash.com/random/600x400/?balance,leadership",
+                link: "balancing-masculine-feminine-energy-leadership.html",
+                date: "December 14, 2024",
+                categories: ["leadership", "spirituality"]
+            }
+        ];
+
+        // Function to create blog cards
+        function createBlogCard(post) {
+            return `
+                <article class="blog-card">
+                    <img src="${post.image}" alt="${post.title}">
+                    <div class="blog-card-content">
+                        <h3>${post.title}</h3>
+                        <p>${post.description}</p>
+                        <div class="blog-meta">
+                            <span class="date">${post.date}</span>
+                            <div>
+                                ${post.categories.map(cat => `
+                                    <span class="category-tag">${cat}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <a href="${post.link}" class="read-more">Read More →</a>
+                    </div>
+                </article>
+            `;
+        }
+
+        // Function to render blog posts
+        function renderBlogPosts(posts) {
+            const blogGrid = document.getElementById('blogGrid');
+            blogGrid.innerHTML = posts.map(post => createBlogCard(post)).join('');
+        }
+
+        // Search and filter functionality
+        const searchInput = document.getElementById('searchInput');
+        const filterTags = document.querySelectorAll('.filter-tag');
+        let activeCategory = 'all';
+
+        function filterPosts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredPosts = blogPosts.filter(post => {
+                const matchesSearch = post.title.toLowerCase().includes(searchTerm) ||
+                                    post.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = activeCategory === 'all' || post.categories.includes(activeCategory);
+                return matchesSearch && matchesCategory;
+            });
+            renderBlogPosts(filteredPosts);
+        }
+
+        searchInput.addEventListener('input', filterPosts);
+
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                filterTags.forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                activeCategory = tag.dataset.category;
+                filterPosts();
+            });
+        });
+
+        // Initial render
+        renderBlogPosts(blogPosts);
+    </script>
+</body>
+</html>
